@@ -3,29 +3,21 @@ import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Alert }
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '@react-navigation/native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "./fireBaseConfig";
+import { loginUser } from './authFunction'; // Importe a função loginUser
 import { RootStackParamList } from "./types";
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [user, setUser] = useState<{ nome: string; nacionalidade: string } | null>(null);
-
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-      const uid = userCredential.user.uid;
-      const userDoc = await getDoc(doc(db, 'Usuario', uid));
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        setUser(userData as { nome: string; nacionalidade: string });
+      const userCredential = await loginUser(email, senha); // Chame a função loginUser
+      if (userCredential) {
         navigation.navigate('Home');
       } else {
-        console.log('No such document!');
+        Alert.alert('Login Failed', 'Invalid email or password.');
       }
     } catch (error) {
       console.error('Error logging in: ', error);

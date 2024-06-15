@@ -5,9 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from './types';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
-import { auth, db } from "./fireBaseConfig";
+import { registerUser } from './authFunction'; // Importe a função de cadastro
 
 export default function Cadastro() {
   const [nome, setNome] = useState('');
@@ -22,7 +20,7 @@ export default function Cadastro() {
   type Login = StackNavigationProp<RootStackParamList, 'Login'>;
   const navigation = useNavigation<Login>();
 
-  const cadastro = async () => {
+  const handleRegister = async () => {
     if (!nome || !email || !cpf || !senha || !confirmeSenha || !endereco || !nacionalidade || !genero) {
       Alert.alert('Preencha todos os campos');
       return;
@@ -34,18 +32,7 @@ export default function Cadastro() {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-      const user = userCredential.user;
-
-      await setDoc(doc(db, 'Usuario', user.uid), {
-        nome,
-        email,
-        cpf,
-        endereco,
-        nacionalidade,
-        genero,
-      });
-
+      const user = await registerUser(email, senha);
       Alert.alert('Cadastro realizado com sucesso');
       navigation.navigate('Login');
     } catch (error: any) {
@@ -123,7 +110,7 @@ export default function Cadastro() {
           onChangeText={text => setConfirmeSenha(text)}
           value={confirmeSenha}
         />
-        <TouchableOpacity style={styles.btnCadastro} onPress={cadastro}>
+        <TouchableOpacity style={styles.btnCadastro} onPress={handleRegister}>
           <Text style={styles.btnCadastroText}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
