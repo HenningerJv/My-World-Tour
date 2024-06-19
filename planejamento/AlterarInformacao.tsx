@@ -8,14 +8,13 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from './types';
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "./fireBaseConfig";
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface User {
     nome: string;
     nacionalidade: string;
 }
 
-export default function Cadastro() {
+export default function AlterarInformacao() {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [cpf, setCpf] = useState('');
@@ -71,29 +70,29 @@ export default function Cadastro() {
         <LinearGradient
             colors={['#00FF94', '#00FF94', '#2F829C']}
             style={styles.linearGradient}>
-            <Text style={styles.text}>Bem-vindo, {user?.nome ?? 'Visitante'}</Text>
-            <Text style={styles.text}>Nacionalidade: {user?.nacionalidade ?? 'Desconhecida'}</Text>
             <View style={styles.container}>
                 <View style={styles.iconContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <Icon name="home-outline" size={30} color="black" />
-                        <Text>Home</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                        <Text style={styles.iconText}>Home</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
+                        <Text style={styles.iconText}>Passagens</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
+                        <Text style={styles.iconText}>Reservas</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('HallMoedas')}>
-                        <Icon name="home-outline" size={30} color="black" />
-                        <Text>Conversor</Text>
+                        <Text style={styles.iconText}>Conversor</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
-                        <Icon name="settings-outline" size={30} color="black" />
-                        <Text>Configurações</Text>
+                        <Text style={styles.iconText}>Configurações</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                        <Icon name="log-out-outline" size={30} color="black" />
-                        <Text>Sair</Text>
+                        <Text style={styles.iconText}>Sair</Text>
                     </TouchableOpacity>
                 </View>
                 <StatusBar hidden />
-                <Text style={styles.text}>Alteração de Informação</Text>
+                <Text style={styles.textPagina}>Alteração de Informação</Text>
                 <TextInput style={styles.textInput} placeholder="Informe o seu nome:" onChangeText={text => setNome(text)} />
                 <TextInput style={styles.textInput} placeholder="Informe o seu CPF:" onChangeText={number => setCpf(number)} />
                 <TextInput style={styles.textInput} placeholder="Informe o seu Email:" onChangeText={text => setEmail(text)} />
@@ -145,7 +144,7 @@ export default function Cadastro() {
                     onChangeText={text => setConfirmeSenha(text)}
                 />
                 <TouchableOpacity style={styles.btnCadastro} onPress={updateUser}>
-                    <Text style={styles.btnCadastro}>Atualizar Informações</Text>
+                    <Text style={styles.text}>Atualizar Informações</Text>
                 </TouchableOpacity>
             </View>
         </LinearGradient >
@@ -159,28 +158,29 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        padding: 8,
         height: 7,
-        marginLeft: 55,
-        width: '80%',
+        justifyContent: 'center',
+        display: 'flex',
+        padding: 6,
+        width: '90%',
         backgroundColor: 'white',
         borderRadius: 7,
         paddingTop: 1,
-        alignItems: 'center',
-        alignContent: 'center',
-    },
+        marginLeft: 19,
+        marginTop: 40,
+      },
     text: {
         fontSize: 40,
         marginBottom: 70,
         fontWeight: '500',
         color: 'black',
+        marginLeft: 60
     },
-    iconContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 20,
+    textPagina: {
+        textAlign: 'center',
+        fontWeight: '500',
+        color: 'black',
+        fontSize: 40,
     },
     btnCadastro: {
         backgroundColor: '#00FF94',
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
         padding: 9,
         alignContent: 'center',
         width: '60%',
-        textAlign: 'center'
+        borderRadius: 5,
     },
     textInput: {
         width: '90%',
@@ -204,9 +204,20 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
+    },
+    container2: {
+        backgroundColor: '#00FF94',
+        width: '40%'
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: 'white',
+        width: '80%',
+        marginLeft: 40,
+    },
+    iconText: {
+        color: 'black',
+        fontWeight: '600',
     }
 });
-
-function alert(confirmeSenha: string) {
-    throw new Error("Function not implemented.");
-}

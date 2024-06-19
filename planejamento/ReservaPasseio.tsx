@@ -1,25 +1,20 @@
 import { Picker } from "@react-native-picker/picker";
-import LinearGradient from "react-native-linear-gradient";
-import Home from "./Home";
 import React, { useEffect, useState } from "react";
+import LinearGradient from "react-native-linear-gradient";
 import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "./types";
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types";
 
 interface User {
     nome: string;
     nacionalidade: string;
 }
 
-export default function ConversorMoeda() {
+
+export default function ReservaPasseio() {
     const [nome, setNome] = useState('');
     const [nacionalidade, setNacionalidade] = useState('')
-    const [moedaOrigem, setMoedaOrigem] = useState('');
-    const [moedaDestino, setMoedaDestino] = useState('');
-    const [valor, setValor] = useState('');
-    const [resultado, setResultado] = useState('');
-    const [numeroConta, setNumeroConta] = useState('')
     const [user, setUser] = useState<User | null>(null);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -59,38 +54,9 @@ export default function ConversorMoeda() {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.container}>
-                    <Text style={styles.text}>Converte Sua Moeda</Text>
-                    <Picker selectedValue={moedaOrigem}
-                        onValueChange={(itemValue: React.SetStateAction<string>, itemIndex: any) =>
-                            setMoedaOrigem(itemValue)
-                        }>
-                        <Picker.Item label='Selecione a Moeda que será convertida' value='' />
-                        <Picker.Item label='Real Brasileiro' value='realBrasileiro' />
-                        <Picker.Item label='Euro' value='euro' />
-                        <Picker.Item label='Dolar Canadense' value='dolarCanadense' />
-                        <Picker.Item label='Dolar Americano' value='dolarAmericano' />
-                        <Picker.Item label='Libra Esterlina' value='libraEsterlina' />
-                        <Picker.Item label='Iene Japonês' value='ieneJapones' />
-                    </Picker>
-                    <TextInput secureTextEntry={true} style={styles.textInput} placeholder="Quanto quer converter" onChangeText={text => setMoedaDestino(text)} />
-                    <Picker selectedValue={moedaDestino}
-                        onValueChange={(itemValue: React.SetStateAction<string>, itemIndex: any) =>
-                            setMoedaDestino(itemValue)
-                        }>
-                        <Picker.Item label='Selecione a Moeda Convertedora' value='' />
-                        <Picker.Item label='Real Brasileiro' value='realBrasileiro' />
-                        <Picker.Item label='Euro' value='euro' />
-                        <Picker.Item label='Dolar Canadense' value='dolarCanadense' />
-                        <Picker.Item label='Dolar Americano' value='dolarAmericano' />
-                        <Picker.Item label='Libra Esterlina' value='libraEsterlina' />
-                        <Picker.Item label='Iene Japonês' value='ieneJapones' />
-                    </Picker>
-                    <TextInput secureTextEntry={true} style={styles.textInput} placeholder="Total" onChangeText={text => setMoedaDestino(text)} />
-                    <TextInput secureTextEntry={true} style={styles.textInput} placeholder="Quanto está hoje" onChangeText={text => setMoedaDestino(text)} />
-                    <TextInput secureTextEntry={true} style={styles.textInput} placeholder="Informe o número da conta" onChangeText={text => setNumeroConta(text)} />
-                    <TouchableOpacity onPress={Home}>
-                        <Text style={styles.linkText}>Converter</Text>
-                    </TouchableOpacity>
+                    <StatusBar hidden />
+                    <View style={styles.container2}>
+                    </View>
                 </View>
             </LinearGradient>
         </>
@@ -159,10 +125,5 @@ const styles = StyleSheet.create({
     iconText: {
         color: 'black',
         fontWeight: '600',
-    },
-    linkText: {
-        alignItems: 'center',
-        textAlign: 'center',
-        fontWeight: '600',
-    },
+    }
 });

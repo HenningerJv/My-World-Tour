@@ -1,27 +1,35 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Alert } from "react-native";
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationProp } from '@react-navigation/native';
-import { loginUser } from './authFunction'; // Importe a função loginUser
-import { RootStackParamList } from "./types";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from './types';
+import { loginUser } from './authFunction';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  type Home = StackNavigationProp<RootStackParamList, 'Home'>;
+  const navigation = useNavigation<Home>();
 
   const handleLogin = async () => {
+    if (!email || !senha) {
+      Alert.alert('Preencha todos os campos');
+      return;
+    }
+
     try {
-      const userCredential = await loginUser(email, senha); // Chame a função loginUser
-      if (userCredential) {
-        navigation.navigate('Home');
+      const user = await loginUser(email, senha);
+      Alert.alert('Login realizado com sucesso');
+      navigation.navigate('Home'); // Ajuste a navegação conforme sua configuração
+    } catch (error: unknown) {
+      console.error('Erro ao fazer login:', error);
+      if (error instanceof Error) {
+        Alert.alert('Erro ao fazer login', error.message);
       } else {
-        Alert.alert('Login Failed', 'Invalid email or password.');
+        Alert.alert('Erro ao fazer login', 'Ocorreu um erro desconhecido.');
       }
-    } catch (error) {
-      console.error('Error logging in: ', error);
-      Alert.alert('Login Failed', 'Invalid email or password.');
     }
   };
 
@@ -31,29 +39,29 @@ export default function Login() {
       style={styles.linearGradient}>
       <View style={styles.container}>
         <StatusBar hidden />
-        <Text style={styles.text}>Bem-vindo</Text>
-        <TextInput 
-          style={styles.textInput} 
-          placeholder="Informe o seu Email:" 
-          onChangeText={text => setEmail(text)} 
+        <Text style={styles.text}>Faça seu login</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Informe o seu Email:"
+          onChangeText={text => setEmail(text)}
           value={email}
         />
-        <TextInput 
-          secureTextEntry={true} 
-          style={styles.textInput} 
-          placeholder="Crie sua senha:" 
-          onChangeText={text => setSenha(text)} 
+        <TextInput
+          secureTextEntry={true}
+          style={styles.textInput}
+          placeholder="Informe a sua senha:"
+          onChangeText={text => setSenha(text)}
           value={senha}
         />
-        <TouchableOpacity style={styles.btnCadastro} onPress={handleLogin}>
-          <Text style={styles.btnCadastro}>Entrar</Text>
+        <TouchableOpacity style={styles.btnLogin} onPress={handleLogin}>
+          <Text style={styles.btnLoginText}>Entrar</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
           <Text style={styles.linkText}>Não tem Conta?</Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -63,34 +71,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    flexDirection: 'column',
     padding: 8,
     marginLeft: 55,
     width: '80%',
     backgroundColor: 'white',
     borderRadius: 7,
     alignItems: 'center',
-    alignContent: 'center',
   },
   text: {
     fontSize: 40,
     marginBottom: 70,
     fontWeight: '500',
     color: 'black',
-  },
-  btnCadastro: {
-    backgroundColor: '#00FF94',
-    color: 'black',
-    fontWeight: '600',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 9,
-    width: '60%',
-    textAlign: 'center'
-  },
-  linkText: {
-    color: 'blue',
-    textDecorationLine: 'underline',
   },
   textInput: {
     width: '90%',
@@ -103,5 +95,21 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-  }
+  },
+  linkText: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+  },
+  btnLogin: {
+    backgroundColor: '#00FF94',
+    padding: 9,
+    width: '60%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  btnLoginText: {
+    color: 'black',
+    fontWeight: '600',
+  },
 });

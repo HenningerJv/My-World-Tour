@@ -1,9 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Sua configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDIraNoltnTG6mIz51SGo2Xni5BfgAqnIQ",
   authDomain: "my-world-tour-bc748.firebaseapp.com",
@@ -22,4 +21,20 @@ const auth = initializeAuth(app, {
 
 const db = getFirestore(app);
 
-export { auth, db };
+const fetchTickets = async (userId) => {
+  try {
+    const tickets = [];
+    const querySnapshot = await getDocs(collection(db, "tickets"));
+    querySnapshot.forEach((doc) => {
+      if (doc.data().userId === userId) {
+        tickets.push({ id: doc.id, ...doc.data() });
+      }
+    });
+    return tickets;
+  } catch (error) {
+    console.error("Erro ao buscar passagens: ", error);
+    return [];
+  }
+};
+
+export { auth, db, fetchTickets };

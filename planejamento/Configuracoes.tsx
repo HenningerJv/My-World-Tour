@@ -53,33 +53,37 @@ export default function ConversorMoeda() {
             <LinearGradient
                 colors={['#00FF94', '#00FF94', '#2F829C']}
                 style={styles.linearGradient}>
-                <Text style={styles.text}>Bem-vindo, {user?.nome ?? 'Visitante'}</Text>
-                <Text style={styles.text}>Nacionalidade: {user?.nacionalidade ?? 'Desconhecida'}</Text>
+                <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
+                <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
                 <View style={styles.iconContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <Icon name="home" size={30} color="black" />
-                        <Text>Home</Text>
+                        <Text style={styles.iconText}>Home</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
+                        <Text style={styles.iconText}>Passagens</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
+                        <Text style={styles.iconText}>Reservas</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('HallMoedas')}>
-                        <Icon name="monetization_on" size={30} color="black" />
-                        <Text>Conversor</Text>
+                        <Text style={styles.iconText}>Conversor</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
-                        <Icon name="settings" size={30} color="black" />
-                        <Text>Configurações</Text>
+                        <Text style={styles.iconText}>Configurações</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                        <Icon name="logout" size={30} color="black" />
-                        <Text>Sair</Text>
+                        <Text style={styles.iconText}>Sair</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AlterarInformacao')}>
-                        <Text style={styles.buttonText}>Alterar Informações</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonDeletar} onPress={handleDeleteUser}>
-                        <Text style={styles.buttonText}>Deletar Perfil</Text>
-                    </TouchableOpacity>
+                <View style={styles.container}>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AlterarInformacao')}>
+                            <Text style={styles.buttonText}>Alterar Informações</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonDeletar} onPress={handleDeleteUser}>
+                            <Text style={styles.buttonText}>Deletar Perfil</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </LinearGradient>
         </>
@@ -100,7 +104,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 7,
         paddingTop: 1,
-        marginLeft: 19
+        marginLeft: 19,
+        marginTop: 40,
     },
     text: {
         fontSize: 40,
@@ -138,7 +143,15 @@ const styles = StyleSheet.create({
     iconContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
+        backgroundColor: 'white',
+        width: '80%',
+        paddingTop: 8,
+        marginLeft: 40,
         marginTop: 20,
+    },
+    iconText: {
+        color: 'black',
+        fontWeight: '600',
     },
     linkText: {
         alignItems: 'center',
@@ -156,9 +169,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     buttonDeletar: {
-        backgroundColor: '#red',
+        backgroundColor: 'red',
         padding: 10,
         borderRadius: 5,
+        color: 'black',
+        fontWeight: '600',
     },
     buttonText: {
         color: 'black',

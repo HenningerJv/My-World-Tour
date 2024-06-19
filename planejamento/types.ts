@@ -4,5 +4,13 @@ export type RootStackParamList = {
     HallMoedas: undefined;
     Configuracoes: undefined;
     Cadastro: undefined;
-    AlterarInformacao: undefined
+    AlterarInformacao: undefined;
+    ConfirmeCompra: undefined;
+    Reservas: undefined;
+    Passagens: undefined;
+    ReservaVoo: undefined;
+    ReservaTurismo: undefined;
+    ReservaHotel: undefined;
+    ReservaPasseio: undefined;
+    ConfirmarReserva: undefined;
   };

@@ -42,8 +42,8 @@ export default function HallMoedas() {
       <LinearGradient
         colors={['#00FF94', '#00FF94', '#2F829C']}
         style={styles.linearGradient}>
-        <Text style={styles.text}>Bem-vindo, {user?.nome ?? 'Visitante'}</Text>
-        <Text style={styles.text}>Nacionalidade: {user?.nacionalidade ?? 'Desconhecida'}</Text>
+        <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
+        <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
         <View style={styles.container}>
           <StatusBar hidden />
           <View style={styles.container2}>
@@ -79,20 +79,22 @@ export default function HallMoedas() {
           </View>
           <View style={styles.iconContainer}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-              <Icon name="home-outline" size={30} color="black" />
-              <Text>Home</Text>
+              <Text style={styles.iconText}>Home</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
+              <Text style={styles.iconText}>Passagens</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
+              <Text style={styles.iconText}>Reservas</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('HallMoedas')}>
-              <Icon name="home-outline" size={30} color="black" />
-              <Text>Conversor</Text>
+              <Text style={styles.iconText}>Conversor</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
-              <Icon name="settings-outline" size={30} color="black" />
-              <Text>Configurações</Text>
+              <Text style={styles.iconText}>Configurações</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Icon name="log-out-outline" size={30} color="black" />
-              <Text>Sair</Text>
+              <Text style={styles.iconText}>Sair</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -115,7 +117,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 7,
     paddingTop: 1,
-    marginLeft: 19
+    marginLeft: 19,
+    marginTop: 40,
   },
   text: {
     fontSize: 40,
@@ -153,6 +156,14 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    backgroundColor: 'white',
+    width: '80%',
+    paddingTop: 8,
+    marginLeft: 40,
     marginTop: 20,
+  },
+  iconText: {
+    color: 'black',
+    fontWeight: '600',
   },
 });

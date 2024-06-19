@@ -12,7 +12,7 @@ interface User {
 }
 
 
-export default function Home() {
+export default function ReservaHotel() {
   const [nome, setNome] = useState('');
   const [nacionalidade, setNacionalidade] = useState('')
   const [user, setUser] = useState<User | null>(null);
@@ -32,16 +32,10 @@ export default function Home() {
         colors={['#00FF94', '#00FF94', '#2F829C']}
         style={styles.linearGradient}>
         <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
-        <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
+        <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade: 'Carregando...'}</Text>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Text style={styles.iconText}>Home</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
-            <Text style={styles.iconText}>Passagens</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
-            <Text style={styles.iconText}>Reservas</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('HallMoedas')}>
             <Text style={styles.iconText}>Conversor</Text>
@@ -52,13 +46,13 @@ export default function Home() {
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.iconText}>Sair</Text>
           </TouchableOpacity>
-      </View>
-      <View style={styles.container}>
-        <StatusBar hidden />
-        <View style={styles.container2}>
         </View>
-      </View>
-    </LinearGradient >
+        <View style={styles.container}>
+          <StatusBar hidden />
+          <View style={styles.container2}>
+          </View>
+        </View>
+      </LinearGradient>
     </>
   )
 }

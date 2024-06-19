@@ -3,10 +3,11 @@ import { name as appName } from './app.json';
 import React from 'react';
 import Login from './Login';
 import Cadastro from './Cadastro';
+import AlterarInformacao from './AlterarInformacao';
 import Home from './Home';
-import ConfirmeCompra from './confirmeCompra';
-import ConversorMoeda from './conversorMoeda';
-import HallMoedas from './hallMoedas';
+import ConfirmeCompra from './ConfirmeCompra';
+import ConversorMoeda from './ConversorMoeda';
+import HallMoedas from './HallMoedas';
 import Configuracoes from './Configuracoes';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -46,6 +47,10 @@ export default function App() {
                 <Stack.Screen
                     name='Configuracoes'
                     component={Configuracoes}
+                />
+                <Stack.Screen
+                    name='AlterarInformacao'
+                    component={AlterarInformacao}
                 />
             </Stack.Navigator>
         </NavigationContainer>

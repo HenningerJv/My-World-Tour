@@ -3,9 +3,9 @@ import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Alert }
 import { Picker } from '@react-native-picker/picker';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from './types';
 import { registerUser } from './authFunction'; // Importe a função de cadastro
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "./types";
 
 export default function Cadastro() {
   const [nome, setNome] = useState('');
@@ -35,7 +35,7 @@ export default function Cadastro() {
       const user = await registerUser(email, senha);
       Alert.alert('Cadastro realizado com sucesso');
       navigation.navigate('Login');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Erro ao cadastrar usuário:', error);
       if (error instanceof Error) {
         Alert.alert('Erro ao cadastrar usuário', error.message);
