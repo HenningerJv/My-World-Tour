@@ -135,6 +135,11 @@ export default function ReservaPasseio() {
     };
 
     const handleConfirm = () => {
+        console.log(`Nome: ${nome}`);
+        console.log(`Ponto Turístico: ${spot}`);
+        console.log(`Cidade: ${cidade}`);
+        console.log(`Data de Visita: ${dataVisita}`);
+
         if (!nome || !spot || !cidade || !dataVisita) {
             Alert.alert("Erro", "Por favor, preencha todos os campos.");
             return;

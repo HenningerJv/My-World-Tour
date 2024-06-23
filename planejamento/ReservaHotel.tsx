@@ -138,13 +138,13 @@ export default function ReservaHotel() {
   };
 
   const handleConfirm = () => {
-    console.log('Nome:', nome);
-    console.log('Hotel:', hotel);
-    console.log('Cidade:', cidade);
-    console.log('Data Check-in:', dataCheckIn);
-    console.log('Data Check-out:', dataCheckOut);
+    console.log(`Nome: ${nome}`);
+    console.log(`Hotel: ${hotel}`);
+    console.log(`Cidade: ${cidade}`);
+    console.log(`Data de Check-in: ${dataCheckIn}`);
+    console.log(`Data de Check-out: ${dataCheckOut}`);
 
-    if (!nome.trim() || !hotel || !cidade || !dataCheckIn || !dataCheckOut) {
+    if (!nome || !hotel || !cidade || !dataCheckIn || !dataCheckOut) {
       Alert.alert("Erro", "Por favor, preencha todos os campos.");
       return;
     }
