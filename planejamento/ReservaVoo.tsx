@@ -14,38 +14,39 @@ interface User {
 }
 
 const airports = {
-    'Rio de Janeiro': 'Aeroporto Santos Dumont',
-    'Sao Paulo': 'Aeroporto de Guarulhos',
-    'Salvador': 'Aeroporto Internacional de Salvador Luís Eduardo Magalhães',
-    'Brasilia': 'Aeroporto Internacional de Brasília - Presidente Juscelino Kubitschek',
-    'Espirito Santo': 'Aeroporto de Vitória Eurico de Aguiar Salles',
-    'Florianopolis': 'Aeroporto Internacional de Florianópolis - Hercílio Luz',
-    'Roma': 'Aeroporto Fiumicino',
-    'Lisboa': 'Aeroporto Humberto Delgado',
-    'Paris': 'Aeroporto de Paris-Charles de Gaulle',
-    'Amsterdam': 'Aeroporto de Amesterdão Schiphol',
-    'Berlim': 'Aeroporto de Berlim-Brandemburgo',
-    'Estocolmo': 'Aeroporto de Arlanda',
-    'Dublin': 'Aeroporto de Dublin',
-    'Londres': 'Aeroporto da Cidade de Londres',
-    'Edimburgo': 'Aeroporto de Edimburgo',
-    'Atenas': 'Aeroporto Internacional de Atenas',
-    'Berna': 'Aeroporto de Berna',
-    'Viena': 'Aeroporto Internacional de Viena',
+    'Aeroporto Santos Dumont': 'Rio de Janeiro',
+    'Aeroporto de Guarulhos': 'Sao Paulo',
+    'Aeroporto Internacional de Salvador Luís Eduardo Magalhães': 'Salvador',
+    'Aeroporto Internacional de Brasília - Presidente Juscelino Kubitschek': 'Brasilia',
+    'Aeroporto de Vitória Eurico de Aguiar Salles': 'Espirito Santo',
+    'Aeroporto Internacional de Florianópolis - Hercílio Luz': 'Florianopolis',
+    'Aeroporto Fiumicino': 'Roma',
+    'Aeroporto Humberto Delgado': 'Lisboa',
+    'Aeroporto de Paris-Charles de Gaulle': 'Paris',
+    'Aeroporto de Amesterdão Schiphol': 'Amsterdam',
+    'Aeroporto de Berlim-Brandemburgo': 'Berlim',
+    'Aeroporto de Arlanda': 'Estocolmo',
+    'Aeroporto de Dublin': 'Dublin',
+    'Aeroporto da Cidade de Londres': 'Londres',
+    'Aeroporto de Edimburgo': 'Edimburgo',
+    'Aeroporto Internacional de Atenas': 'Atenas',
+    'Aeroporto de Berna': 'Berna',
+    'Aeroporto Internacional de Viena': 'Viena',
 };
 
 export default function ReservaVoo() {
     const [nome, setNome] = useState('');
     const [nacionalidade, setNacionalidade] = useState('')
     const [user, setUser] = useState<User | null>(null);
-    const [destino, setDestino] = useState('')
-    const [origem, setOrigem] = useState('')
-    const [aeroporto, setAeroporto] = useState('')
+    const [destino, setDestino] = useState('');
+    const [origem, setOrigem] = useState('');
+    const [aeroporto, setAeroporto] = useState('');
     const [dataIda, setDataIda] = useState(new Date());
     const [dataVolta, setDataVolta] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [mode, setMode] = useState('date');
     const [dateType, setDateType] = useState<'ida' | 'volta'>('ida');
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
@@ -69,24 +70,28 @@ export default function ReservaVoo() {
         );
     }, []);
 
+    useEffect(() => {
+        checkFields();
+    }, [origem, destino, dataIda, dataVolta]);
+
     const getLocationName = (latitude: number, longitude: number) => {
         if (latitude === -22.9105 && longitude === -43.1631) {
             return 'Rio de Janeiro';
         }
         if (latitude === -23.4356 && longitude === -46.4731) {
-            return 'Sao Paulo';
+            return 'São Paulo';
         }
         if (latitude === -12.9086 && longitude === -38.3225) {
             return 'Salvador';
         }
         if (latitude === -15.8711 && longitude === -47.9186) {
-            return 'Brasilia';
+            return 'Brasília';
         }
         if (latitude === -20.2581 && longitude === -40.2864) {
-            return 'Espirito Santo';
+            return 'Espírito Santo';
         }
         if (latitude === -27.6705 && longitude === -48.5525) {
-            return 'Florianopolis';
+            return 'Florianópolis';
         }
         if (latitude === 41.8003 && longitude === 12.2389) {
             return 'Roma';
@@ -138,9 +143,17 @@ export default function ReservaVoo() {
         }
     };
 
-    const showDatepicker = (type: string | ((prevState: "ida" | "volta") => "ida" | "volta")) => {
+    const showDatepicker = (type: 'ida' | 'volta') => {
         setDateType(type);
         setShowDatePicker(true);
+    };
+
+    const checkFields = () => {
+        if (origem && destino && dataIda && dataVolta) {
+            setIsButtonEnabled(true);
+        } else {
+            setIsButtonEnabled(false);
+        }
     };
 
     return (
@@ -148,8 +161,6 @@ export default function ReservaVoo() {
             <LinearGradient
                 colors={['#00FF94', '#00FF94', '#2F829C']}
                 style={styles.linearGradient}>
-                <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
-                <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
                 <View style={styles.iconContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                         <Text style={styles.iconText}>Home</Text>
@@ -159,9 +170,6 @@ export default function ReservaVoo() {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
                         <Text style={styles.iconText}>Reservas</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('HallMoedas')}>
-                        <Text style={styles.iconText}>Conversor</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
                         <Text style={styles.iconText}>Configurações</Text>
@@ -212,7 +220,11 @@ export default function ReservaVoo() {
                             onChange={onChange}
                         />
                     )}
-                    <TouchableOpacity onPress={() => navigation.navigate('ConfirmeCompra')}>
+                    <TouchableOpacity
+                        style={[styles.btnCadastro, { backgroundColor: isButtonEnabled ? '#00FF94' : '#ccc' }]}
+                        onPress={() => isButtonEnabled && navigation.navigate('ConfirmeCompra')}
+                        disabled={!isButtonEnabled}
+                    >
                         <Text style={styles.linkText}>Confirmar compra</Text>
                     </TouchableOpacity>
                 </View>
@@ -240,14 +252,24 @@ const styles = StyleSheet.create({
         height: 40,
         marginBottom: 10,
     },
+    btnCadastro: {
+        backgroundColor: '#00FF94',
+        color: 'black',
+        fontWeight: '600',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 9,
+        alignContent: 'center',
+        width: '60%',
+        marginBottom: 20,
+    },
     linkText: {
         alignItems: 'center',
         textAlign: 'center',
-        fontWeight: '600',
-        marginTop: 20,
+        fontWeight: '800',
     },
     text: {
-        fontSize: 40,
+        fontSize: 20,
         marginBottom: 20,
         fontWeight: '500',
         color: 'black',

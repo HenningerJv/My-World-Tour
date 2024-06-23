@@ -1,7 +1,7 @@
-import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// fireBaseConfig.js
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDIraNoltnTG6mIz51SGo2Xni5BfgAqnIQ",
@@ -13,28 +13,12 @@ const firebaseConfig = {
   measurementId: "G-5Y3BFYQJQP"
 };
 
-const app = initializeApp(firebaseConfig);
+// Inicializa o Firebase
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage)
-});
+const auth = firebase.auth();
+const firestore = firebase.firestore();
 
-const db = getFirestore(app);
-
-const fetchTickets = async (userId) => {
-  try {
-    const tickets = [];
-    const querySnapshot = await getDocs(collection(db, "tickets"));
-    querySnapshot.forEach((doc) => {
-      if (doc.data().userId === userId) {
-        tickets.push({ id: doc.id, ...doc.data() });
-      }
-    });
-    return tickets;
-  } catch (error) {
-    console.error("Erro ao buscar passagens: ", error);
-    return [];
-  }
-};
-
-export { auth, db, fetchTickets };
+export { auth, firestore };

@@ -11,10 +11,9 @@ interface User {
   nacionalidade: string;
 }
 
-
 export default function Reservas() {
   const [nome, setNome] = useState('');
-  const [nacionalidade, setNacionalidade] = useState('')
+  const [nacionalidade, setNacionalidade] = useState('');
   const [user, setUser] = useState<User | null>(null);
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -32,35 +31,39 @@ export default function Reservas() {
         colors={['#00FF94', '#00FF94', '#2F829C']}
         style={styles.linearGradient}>
         <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
-        <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade: 'Carregando...'}</Text>
+        <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
         <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <Text style={styles.iconText}>Home</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
-                        <Text style={styles.iconText}>Passagens</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
-                        <Text style={styles.iconText}>Reservas</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('HallMoedas')}>
-                        <Text style={styles.iconText}>Conversor</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
-                        <Text style={styles.iconText}>Configurações</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                        <Text style={styles.iconText}>Sair</Text>
-                    </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Text style={styles.iconText}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
+            <Text style={styles.iconText}>Passagens</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
+            <Text style={styles.iconText}>Reservas</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
+            <Text style={styles.iconText}>Configurações</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.iconText}>Sair</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.container}>
           <StatusBar hidden />
-          <View style={styles.container2}>
-          </View>
+          <TouchableOpacity style={styles.btnCadastro} onPress={() => navigation.navigate('ReservaHotel')}>
+            <Text style={styles.text}>Reservar Hotel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnCadastro2} onPress={() => navigation.navigate('ReservaPasseio')}>
+            <Text style={styles.text}>Reservar Passeios</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnCadastro2} onPress={() => navigation.navigate('ReservaTurismo')}>
+            <Text style={styles.text}>Ver Reservas</Text>
+          </TouchableOpacity>
         </View>
       </LinearGradient>
     </>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -69,33 +72,40 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    height: 7,
     justifyContent: 'center',
     display: 'flex',
-    padding: 6,
+    padding: 16,
     width: '90%',
     backgroundColor: 'white',
     borderRadius: 7,
-    paddingTop: 1,
-    marginLeft: 19,
+    marginLeft: '5%',
     marginTop: 40,
   },
   text: {
-    fontSize: 40,
-    marginBottom: 70,
+    fontSize: 20,
     fontWeight: '500',
     color: 'black',
-    marginLeft: 60
+    textAlign: 'center',
   },
   btnCadastro: {
     backgroundColor: '#00FF94',
-    color: 'black',
-    fontWeight: '600',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 9,
     alignContent: 'center',
-    width: '60%'
+    width: '60%',
+    marginVertical: 10,
+    padding: 10,
+    borderRadius: 5,
+  },
+  btnCadastro2: {
+    backgroundColor: '#00FF94',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: '60%',
+    marginVertical: 10,
+    padding: 10,
+    borderRadius: 5,
   },
   textInput: {
     width: '90%',
@@ -109,21 +119,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
-  container2: {
-    backgroundColor: '#00FF94',
-    width: '40%'
-  },
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor: 'white',
     width: '80%',
     paddingTop: 8,
-    marginLeft: 40,
+    marginLeft: '10%',
     marginTop: 20,
   },
   iconText: {
     color: 'black',
     fontWeight: '600',
-  }
+  },
 });

@@ -6,13 +6,18 @@ import Cadastro from './Cadastro';
 import AlterarInformacao from './AlterarInformacao';
 import Home from './Home';
 import ConfirmeCompra from './ConfirmeCompra';
+import Passagens from './Passagens';
 import ConversorMoeda from './ConversorMoeda';
-import HallMoedas from './HallMoedas';
 import Configuracoes from './Configuracoes';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
+import ReservaVoo from './ReservaVoo';
+import Reservas from './Reservas';
+import ReservaPasseio from './ReservaPasseio';
+import ReservaHotel from './ReservaHotel';
+import ReservaTurismo from './ReservaTurismo';
 
 
 const Stack = createStackNavigator();
@@ -33,16 +38,36 @@ export default function App() {
                     component={Home}
                 />
                 <Stack.Screen
+                    name="Passagens"
+                    component={Passagens}
+                />
+                <Stack.Screen
+                    name="ReservaVoo"
+                    component={ReservaVoo}
+                />
+                <Stack.Screen
+                    name="Reservas"
+                    component={Reservas}
+                />
+                <Stack.Screen
+                    name="ReservaHotel"
+                    component={ReservaHotel}
+                />
+                <Stack.Screen
+                    name="ReservaPasseio"
+                    component={ReservaPasseio}
+                />
+                <Stack.Screen
+                    name="ReservaTurismo"
+                    component={ReservaTurismo}
+                />
+                <Stack.Screen
                     name='ConfirmeCompra'
                     component={ConfirmeCompra}
                 />
                 <Stack.Screen
                     name='ConversorMoeda'
                     component={ConversorMoeda}
-                />
-                <Stack.Screen
-                    name='HallMoeda'
-                    component={HallMoedas}
                 />
                 <Stack.Screen
                     name='Configuracoes'

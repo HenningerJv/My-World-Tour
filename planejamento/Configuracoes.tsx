@@ -1,12 +1,10 @@
 import { Picker } from "@react-native-picker/picker";
 import LinearGradient from "react-native-linear-gradient";
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "./types";
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { auth, firestore } from './fireBaseConfig';
-
 
 interface User {
     nome: string;
@@ -33,9 +31,7 @@ export default function ConversorMoeda() {
 
             if (currentUser) {
                 await firestore.collection('Usuario').doc(currentUser.uid).delete();
-
                 await currentUser.delete();
-
                 setUser(null);
                 Alert.alert('Usuário deletado', 'O usuário foi deletado com sucesso.');
                 navigation.navigate('Login');
@@ -49,45 +45,38 @@ export default function ConversorMoeda() {
     };
 
     return (
-        <>
-            <LinearGradient
-                colors={['#00FF94', '#00FF94', '#2F829C']}
-                style={styles.linearGradient}>
-                <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
-                <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
-                <View style={styles.iconContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <Text style={styles.iconText}>Home</Text>
+        <LinearGradient colors={['#00FF94', '#00FF94', '#2F829C']} style={styles.linearGradient}>
+            <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
+            <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
+            <View style={styles.iconContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    <Text style={styles.iconText}>Home</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
+                    <Text style={styles.iconText}>Passagens</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
+                    <Text style={styles.iconText}>Reservas</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
+                    <Text style={styles.iconText}>Configurações</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                    <Text style={styles.iconText}>Sair</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.container}>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AlterarInformacao')}>
+                        <Text style={styles.buttonText}>Alterar Informações</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
-                        <Text style={styles.iconText}>Passagens</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
-                        <Text style={styles.iconText}>Reservas</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('HallMoedas')}>
-                        <Text style={styles.iconText}>Conversor</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
-                        <Text style={styles.iconText}>Configurações</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                        <Text style={styles.iconText}>Sair</Text>
+                    <TouchableOpacity style={styles.buttonDeletar} onPress={handleDeleteUser}>
+                        <Text style={styles.buttonText}>Deletar Perfil</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.container}>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AlterarInformacao')}>
-                            <Text style={styles.buttonText}>Alterar Informações</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonDeletar} onPress={handleDeleteUser}>
-                            <Text style={styles.buttonText}>Deletar Perfil</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </LinearGradient>
-        </>
-    )
+            </View>
+        </LinearGradient>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -108,11 +97,11 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     text: {
-        fontSize: 40,
+        fontSize: 20,
         marginBottom: 70,
         fontWeight: '500',
         color: 'black',
-        marginLeft: 60
+        marginLeft: 60,
     },
     btnCadastro: {
         backgroundColor: '#00FF94',
@@ -122,7 +111,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 9,
         alignContent: 'center',
-        width: '60%'
+        width: '60%',
     },
     textInput: {
         width: '90%',
@@ -138,7 +127,7 @@ const styles = StyleSheet.create({
     },
     container2: {
         backgroundColor: '#00FF94',
-        width: '40%'
+        width: '40%',
     },
     iconContainer: {
         flexDirection: 'row',
@@ -178,5 +167,5 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'black',
         fontWeight: '600',
-    }
+    },
 });

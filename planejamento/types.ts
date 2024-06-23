@@ -13,4 +13,13 @@ export type RootStackParamList = {
     ReservaHotel: undefined;
     ReservaPasseio: undefined;
     ConfirmarReserva: undefined;
+    TicketDetail: { ticket: Ticket };
   };
+
+  export interface Ticket {
+    id: string;
+    destino: string;
+    data: string;
+    assento: string;
+    userId: string;
+  }

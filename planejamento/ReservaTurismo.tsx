@@ -1,129 +1,109 @@
-import { Picker } from "@react-native-picker/picker";
-import React, { useEffect, useState } from "react";
-import LinearGradient from "react-native-linear-gradient";
-import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from "./types";
-import { StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types";
+import { RootStackParamList } from './types';
 
-interface User {
-    nome: string;
-    nacionalidade: string;
+interface Reserva {
+  tipo: 'hotel' | 'passeio';
+  nome: string;
+  data: string;
+  cidade: string;
 }
 
+const reservasMock: Reserva[] = [
+  { tipo: 'hotel', nome: 'Hotel Copacabana Palace', data: '2024-06-16', cidade: 'Rio de Janeiro' },
+  { tipo: 'passeio', nome: 'Cristo Redentor', data: '2024-06-17', cidade: 'Rio de Janeiro' },
+];
 
-export default function ReservaTurismo() {
-    const [nome, setNome] = useState('');
-    const [nacionalidade, setNacionalidade] = useState('')
-    const [user, setUser] = useState<User | null>(null);
+export default function ReservasList() {
+  const [reservas, setReservas] = useState<Reserva[]>([]);
+  const [confirmada, setConfirmada] = useState<boolean>(false);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  useEffect(() => {
+    setReservas(reservasMock);
+  }, []);
 
-    useEffect(() => {
-        if (user) {
-            setNome(user.nome);
-            setNacionalidade(user.nacionalidade);
-        }
-    }, [user]);
+  const confirmarReserva = () => {
+    setConfirmada(true);
+  };
 
-    return (
-        <>
-            <LinearGradient
-                colors={['#00FF94', '#00FF94', '#2F829C']}
-                style={styles.linearGradient}>
-                <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
-                <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
-                <View style={styles.iconContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                        <Text style={styles.iconText}>Home</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
-                        <Text style={styles.iconText}>Passagens</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
-                        <Text style={styles.iconText}>Reservas</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('HallMoedas')}>
-                        <Text style={styles.iconText}>Conversor</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Configuracoes')}>
-                        <Text style={styles.iconText}>Configurações</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                        <Text style={styles.iconText}>Sair</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.container}>
-                    <StatusBar hidden />
-                    <View style={styles.container2}>
-                    </View>
-                </View>
-            </LinearGradient>
-        </>
-    )
+  return (
+    <LinearGradient
+      colors={['#00FF94', '#00FF94', '#2F829C']}
+      style={styles.linearGradient}>
+      <StatusBar hidden />
+      <View style={styles.container}>
+        <Text style={styles.title}>Minhas Reservas</Text>
+        {!confirmada ? (
+          <TouchableOpacity onPress={confirmarReserva} style={styles.confirmButton}>
+            <Text style={styles.confirmButtonText}>Confirmar Reservas</Text>
+          </TouchableOpacity>
+        ) : (
+          reservas.map((reserva, index) => (
+            <View key={index} style={styles.reservaContainer}>
+              <Text style={styles.reservaText}>{reserva.tipo === 'hotel' ? 'Hotel' : 'Passeio'}: {reserva.nome}</Text>
+              <Text style={styles.reservaText}>Data: {reserva.data}</Text>
+              <Text style={styles.reservaText}>Cidade: {reserva.cidade}</Text>
+            </View>
+          ))
+        )}
+        <TouchableOpacity onPress={() => navigation.navigate('Reservas')}>
+          <Text style={styles.backText}>Voltar</Text>
+        </TouchableOpacity>
+      </View>
+    </LinearGradient>
+  );
 }
 
 const styles = StyleSheet.create({
-    linearGradient: {
-        flex: 1,
-    },
-    container: {
-        flex: 1,
-        height: 7,
-        justifyContent: 'center',
-        display: 'flex',
-        padding: 6,
-        width: '90%',
-        backgroundColor: 'white',
-        borderRadius: 7,
-        paddingTop: 1,
-        marginLeft: 19,
-        marginTop: 40,
-    },
-    text: {
-        fontSize: 40,
-        marginBottom: 70,
-        fontWeight: '500',
-        color: 'black',
-        marginLeft: 60
-    },
-    btnCadastro: {
-        backgroundColor: '#00FF94',
-        color: 'black',
-        fontWeight: '600',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 9,
-        alignContent: 'center',
-        width: '60%'
-    },
-    textInput: {
-        width: '90%',
-        height: 40,
-        borderRadius: 5,
-        backgroundColor: '#fff',
-        borderColor: 'transparent',
-        shadowColor: 'black',
-        marginBottom: 10,
-        paddingLeft: 10,
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    },
-    container2: {
-        backgroundColor: '#00FF94',
-        width: '40%'
-    },
-    iconContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        backgroundColor: 'white',
-        width: '80%',
-        paddingTop: 8,
-        marginLeft: 40,
-        marginTop: 20,
-    },
-    iconText: {
-        color: 'black',
-        fontWeight: '600',
-    }
+  linearGradient: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    margin: 16,
+    width: '90%',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '600',
+    marginBottom: 16,
+    color: 'black',
+  },
+  reservaContainer: {
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 8,
+    backgroundColor: '#f0f0f0',
+    width: '100%',
+  },
+  reservaText: {
+    fontSize: 18,
+    color: 'black',
+  },
+  confirmButton: {
+    backgroundColor: '#00FF94',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  confirmButtonText: {
+    fontSize: 18,
+    color: 'black',
+    fontWeight: '600',
+  },
+  backText: {
+    marginTop: 20,
+    fontSize: 18,
+    color: '#00FF94',
+    fontWeight: '600',
+  },
 });

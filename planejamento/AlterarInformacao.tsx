@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Alert } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import LinearGradient from 'react-native-linear-gradient';
-import Login from "./Login";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from './types';
-import { setDoc, doc } from "firebase/firestore";
+import { updateDoc, doc } from "firebase/firestore";
 import { auth, db } from "./fireBaseConfig";
+import { updateEmail, updatePassword } from "firebase/auth";
 
 interface User {
     nome: string;
@@ -46,14 +46,23 @@ export default function AlterarInformacao() {
 
             if (currentUser) {
                 const userRef = doc(db, "Usuario", currentUser.uid);
-                await setDoc(userRef, {
+
+                await updateDoc(userRef, {
                     nome,
                     email,
                     cpf,
                     endereco,
                     nacionalidade,
                     genero
-                }, { merge: true });
+                });
+
+                if (email !== currentUser.email) {
+                    await updateEmail(currentUser, email);
+                }
+
+                if (senha) {
+                    await updatePassword(currentUser, senha);
+                }
 
                 Alert.alert("Sucesso", "Informações atualizadas com sucesso!");
                 navigation.navigate('Home');
@@ -72,7 +81,7 @@ export default function AlterarInformacao() {
             style={styles.linearGradient}>
             <View style={styles.container}>
                 <View style={styles.iconContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                         <Text style={styles.iconText}>Home</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Passagens')}>
@@ -151,7 +160,6 @@ export default function AlterarInformacao() {
     )
 }
 
-
 const styles = StyleSheet.create({
     linearGradient: {
         flex: 1,
@@ -168,7 +176,7 @@ const styles = StyleSheet.create({
         paddingTop: 1,
         marginLeft: 19,
         marginTop: 40,
-      },
+    },
     text: {
         fontSize: 40,
         marginBottom: 70,

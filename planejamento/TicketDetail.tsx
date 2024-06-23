@@ -1,10 +1,12 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import { useRoute } from "@react-navigation/native";
+import { useRoute } from '@react-navigation/native';
+
+import { TicketDetailRouteProp } from './path_to_types';
 
 export default function TicketDetail() {
-    const route = useRoute();
+    const route = useRoute<TicketDetailRouteProp>();
     const { ticket } = route.params;
 
     return (
