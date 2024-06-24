@@ -1,10 +1,9 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Platform, Button } from "react-native";
+import { View, StyleSheet, Text, StatusBar, TextInput, TouchableOpacity, Platform, Button, Alert } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "./types";
-import { StackNavigationProp } from "@react-navigation/stack/lib/typescript/src/types";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Geolocation from '@react-native-community/geolocation';
 
@@ -132,7 +131,6 @@ export default function ReservaVoo() {
         return 'Desconhecido';
     };
 
-
     const onChange = (event: any, selectedDate: Date) => {
         const currentDate = selectedDate || (dateType === 'ida' ? dataIda : dataVolta);
         setShowDatePicker(Platform.OS === 'ios');
@@ -153,6 +151,35 @@ export default function ReservaVoo() {
             setIsButtonEnabled(true);
         } else {
             setIsButtonEnabled(false);
+        }
+    };
+
+    const processReservation = () => {
+        if (!origem || !destino || !dataIda || !dataVolta) {
+            Alert.alert("Erro", "Por favor, preencha todos os campos.");
+            return;
+        }
+
+        // Simulando uma chamada de API para processar a reserva
+        const reservationDetails = {
+            origem,
+            destino,
+            dataIda,
+            dataVolta,
+            nome,
+            nacionalidade,
+        };
+
+        // Lógica de reserva simulada
+        try {
+            // Sucesso na reserva
+            Alert.alert("Sucesso", "Reserva realizada com sucesso!");
+            // Redirecionar para a página inicial ou outra página
+            navigation.navigate('Home');
+        } catch (error) {
+            // Falha na reserva
+            console.error("Erro ao processar a reserva:", error);
+            Alert.alert("Erro", "Ocorreu um erro ao processar a reserva. Tente novamente mais tarde.");
         }
     };
 
@@ -222,7 +249,7 @@ export default function ReservaVoo() {
                     )}
                     <TouchableOpacity
                         style={[styles.btnCadastro, { backgroundColor: isButtonEnabled ? '#00FF94' : '#ccc' }]}
-                        onPress={() => isButtonEnabled && navigation.navigate('ConfirmeCompra')}
+                        onPress={processReservation}
                         disabled={!isButtonEnabled}
                     >
                         <Text style={styles.linkText}>Confirmar compra</Text>
@@ -230,7 +257,7 @@ export default function ReservaVoo() {
                 </View>
             </LinearGradient>
         </>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

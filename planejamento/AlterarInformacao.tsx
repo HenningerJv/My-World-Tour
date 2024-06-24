@@ -25,7 +25,6 @@ export default function AlterarInformacao() {
     const [genero, setGenero] = useState('')
     const [user, setUser] = useState<User | null>(null);
 
-    type Home = StackNavigationProp<RootStackParamList>;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useEffect(() => {

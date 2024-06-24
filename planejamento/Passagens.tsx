@@ -45,8 +45,7 @@ export default function Passagens() {
   return (
     <>
       <LinearGradient colors={['#00FF94', '#00FF94', '#2F829C']} style={styles.linearGradient}>
-        <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
-        <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
+        <Text style={styles.text}>Bem-vindo {user ? user.nome : ''}</Text>
         <View style={styles.iconContainer}>
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
               <Text style={styles.iconText}>Home</Text>

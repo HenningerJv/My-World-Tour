@@ -172,6 +172,7 @@ export default function ReservaPasseio() {
                 <StatusBar hidden />
                 <Text style={styles.text}>Onde você vai e o que quer fazer?</Text>
                 <TextInput style={styles.textInput} placeholder="Informe o seu nome:" onChangeText={setNome} value={nome} />
+                <TextInput style={styles.textInput} placeholder="Informe a cidade:" onChangeText={setCidade} value={cidade} />
                 <View style={styles.pickerContainer}>
                     <Picker
                         selectedValue={spot}
@@ -196,7 +197,7 @@ export default function ReservaPasseio() {
                     />
                 )}
                 <TouchableOpacity style={styles.btnCadastro} onPress={handleConfirm}>
-                    <Text style={styles.linkText}>Confirmar compra</Text>
+                    <Text style={styles.linkText}>Confirmar Reserva</Text>
                 </TouchableOpacity>
             </View>
         </LinearGradient>

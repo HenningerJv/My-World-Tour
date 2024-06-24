@@ -181,6 +181,7 @@ export default function ReservaHotel() {
           onChangeText={setNome}
           value={nome}
         />
+        <TextInput style={styles.textInput} placeholder="Informe a cidade:" onChangeText={setCidade} value={cidade} />
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={hotel}
@@ -208,7 +209,7 @@ export default function ReservaHotel() {
           />
         )}
         <TouchableOpacity style={styles.btnCadastro} onPress={handleConfirm}>
-          <Text style={styles.linkText}>Confirmar compra</Text>
+          <Text style={styles.linkText}>Confirmar Reserva</Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>

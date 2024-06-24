@@ -71,7 +71,7 @@ export default function ConversorMoeda() {
           <Picker
             selectedValue={moedaOrigem}
             onValueChange={(itemValue: React.SetStateAction<string>) => setMoedaOrigem(itemValue)}>
-            <Picker.Item label='Selecione a Moeda que será convertida' value='' />
+            <Picker.Item label='Selecione a Moeda que será Convertida' value='' />
             <Picker.Item label='Real Brasileiro' value='realBrasileiro' />
             <Picker.Item label='Euro' value='euro' />
             <Picker.Item label='Dolar Canadense' value='dolarCanadense' />

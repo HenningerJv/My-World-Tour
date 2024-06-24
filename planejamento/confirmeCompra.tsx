@@ -4,7 +4,8 @@ import { Picker } from "@react-native-picker/picker";
 import LinearGradient from "react-native-linear-gradient";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "./types";
-import { processPayment } from './apiService'; // Função para processar o pagamento no backend
+import { processPayment } from './apiService'; 
+import NetInfo from '@react-native-community/netinfo';
 
 interface User {
   nome: string;
@@ -48,6 +49,16 @@ export default function ConfirmeCompra() {
       nacionalidade,
     };
 
+    useEffect(() => {
+      const unsubscribe = NetInfo.addEventListener((state: { isConnected: any; }) => {
+        if (!state.isConnected) {
+          Alert.alert('Erro de Conexão', 'Verifique sua conexão de internet.');
+        }
+      });
+    
+      return () => unsubscribe();
+    }, []);
+
     try {
       const response = await processPayment(paymentDetails);
       if (response.success) {
@@ -57,8 +68,10 @@ export default function ConfirmeCompra() {
         Alert.alert("Erro", "Falha na compra. Tente novamente.");
       }
     } catch (error) {
-      Alert.alert("Erro", "Ocorreu um erro. Tente novamente.");
+      console.error("Erro ao processar pagamento:", error);
+      Alert.alert("Erro", "Ocorreu um erro ao processar o pagamento. Tente novamente mais tarde.");
     }
+    
   };
 
   return (

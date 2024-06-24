@@ -42,8 +42,7 @@ export default function HallMoedas() {
       <LinearGradient
         colors={['#00FF94', '#00FF94', '#2F829C']}
         style={styles.linearGradient}>
-        <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
-        <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
+        <Text style={styles.text}>Bem-vindo {user ? user.nome : ''}</Text>
         <View style={styles.container}>
           <StatusBar hidden />
           <View style={styles.iconContainer}>

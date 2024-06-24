@@ -4,14 +4,14 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "./types";
-import { auth, firestore } from './fireBaseConfig';
+import { auth, db } from './fireBaseConfig'; // Importar auth e db de fireBaseConfig
 
 interface User {
     nome: string;
     nacionalidade: string;
 }
 
-export default function ConversorMoeda() {
+export default function Configuracoes() {
     const [nome, setNome] = useState('');
     const [nacionalidade, setNacionalidade] = useState('');
     const [user, setUser] = useState<User | null>(null);
@@ -30,7 +30,7 @@ export default function ConversorMoeda() {
             const currentUser = auth.currentUser;
 
             if (currentUser) {
-                await firestore.collection('Usuario').doc(currentUser.uid).delete();
+                await db.collection('Usuario').doc(currentUser.uid).delete(); // Usar db para acessar Firestore
                 await currentUser.delete();
                 setUser(null);
                 Alert.alert('Usuário deletado', 'O usuário foi deletado com sucesso.');
@@ -46,8 +46,7 @@ export default function ConversorMoeda() {
 
     return (
         <LinearGradient colors={['#00FF94', '#00FF94', '#2F829C']} style={styles.linearGradient}>
-            <Text style={styles.text}>Bem-vindo, {user ? user.nome : 'Carregando...'}</Text>
-            <Text style={styles.text}>Nacionalidade: {user ? user.nacionalidade : 'Carregando...'}</Text>
+            <Text style={styles.text}>Bem-vindo, {user ? user.nome : ''}</Text>
             <View style={styles.iconContainer}>
                 <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                     <Text style={styles.iconText}>Home</Text>
