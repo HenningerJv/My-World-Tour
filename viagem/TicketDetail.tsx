@@ -1,0 +1,48 @@
+import React from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
+import { useRoute } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient'; // Importação corrigida para Expo
+
+import { TicketDetailRouteProp } from './path_to_types';
+
+export default function TicketDetail() {
+    const route = useRoute<TicketDetailRouteProp>();
+    const { ticket } = route.params;
+
+    return (
+        <LinearGradient colors={['#00FF94', '#00FF94', '#2F829C']} style={styles.linearGradient}>
+            <View style={styles.container}>
+                <Text style={styles.title}>Detalhes da Passagem</Text>
+                <Text style={styles.detail}>Destino: {ticket.destino}</Text>
+                <Text style={styles.detail}>Data: {ticket.data}</Text>
+                <Text style={styles.detail}>Assento: {ticket.assento}</Text>
+                <QRCode value={JSON.stringify(ticket)} size={200} />
+            </View>
+        </LinearGradient>
+    );
+}
+
+const styles = StyleSheet.create({
+    linearGradient: {
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: 'white',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: '600',
+        marginBottom: 20,
+        color: 'black',
+    },
+    detail: {
+        fontSize: 18,
+        marginBottom: 10,
+        color: 'black',
+    }
+});
