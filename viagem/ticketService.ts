@@ -1,5 +1,5 @@
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from './firebaseConfig';
+import { db } from './fireBaseConfig';
 
 // Defina a interface para os tickets
 interface Ticket {

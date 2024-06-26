@@ -31,6 +31,8 @@ export default function Login() {
         } else {
           Alert.alert('Autenticação falhou', 'Tente novamente.');
         }
+      } else {
+        Alert.alert('Biometria não disponível ou não configurada');
       }
     };
 

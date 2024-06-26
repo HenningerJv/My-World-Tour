@@ -35,4 +35,5 @@ const fetchTickets = async (userId: string): Promise<Ticket[]> => {
   }
 };
 
-export { fetchTickets, Ticket };
+export { fetchTickets };  export type { Ticket };
+

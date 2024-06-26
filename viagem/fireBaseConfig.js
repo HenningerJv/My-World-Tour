@@ -1,9 +1,9 @@
+// firebaseConfig.js
 import { initializeApp } from 'firebase/app';
 import { getAuth, initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Sua configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDIraNoltnTG6mIz51SGo2Xni5BfgAqnIQ",
   authDomain: "my-world-tour-bc748.firebaseapp.com",
